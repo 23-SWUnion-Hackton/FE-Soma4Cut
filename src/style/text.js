@@ -65,4 +65,18 @@ export const text = {
       line-height: 150%;
     `,
   },
+  button: {
+    button1: styled.p`
+      font-size: 24px;
+      line-height: 120%;
+    `,
+    button2: styled.p`
+      font-size: 20px;
+      line-height: 120%;
+    `,
+    button3: styled.p`
+      font-size: 16px;
+      line-height: 120%;
+    `,
+  },
 };
