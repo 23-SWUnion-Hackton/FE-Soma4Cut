@@ -8,6 +8,7 @@ import { Login } from "./page/login";
 import { SelectIsNew } from "./page/selectIsNew";
 import { InputCode } from "./page/inputCode";
 import Loading from "./page/loading";
+import { Another } from "./page/another";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route element={<MainPage />} path="/" />
         <Route element={<InputCode />} path="/codeinput" />
+        <Route element={<Another />} path="/watch" />
         <Route element={<SelectIsNew />} path="/isnew" />
         <Route element={<SelectType />} path="/type" />
         <Route element={<Login />} path="/login" />

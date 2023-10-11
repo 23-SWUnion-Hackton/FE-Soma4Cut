@@ -21,3 +21,13 @@ export const CodeAtom = atom({
   key: "code",
   default: "",
 });
+
+export const AnotherImgAtom = atom({
+  key: "anotherimg",
+  default: ["", "", "", ""],
+});
+
+export const MyImageAtom = atom({
+  key: "myimg",
+  default: [],
+});
