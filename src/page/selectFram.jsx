@@ -1,17 +1,24 @@
 import styled, { css } from "styled-components";
 import { frames } from "../assets/index";
-import { text } from "../style/text";
-import { useRecoilState } from "recoil";
-import { frameAtom } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { MyImageAtom, frameAtom } from "../atoms";
 import { Button } from "../style/button";
 import { color } from "../style/color";
 
 export const SelectFrame = () => {
   const [frame, setFrame] = useRecoilState(frameAtom);
+  const screenImg = useRecoilValue(MyImageAtom);
 
   return (
     <Container>
-      <SelectedFrame src={frames[frame]} />
+      <div>
+        <ImgContainer>
+          <SelectedFrame src={frames[frame]} />
+          {screenImg.map((src, index) => (
+            <ScreenImg src={src} idx={index} />
+          ))}
+        </ImgContainer>
+      </div>
       <div>
         <FrameContainer>
           {frames.map((src, index) => (
@@ -47,6 +54,7 @@ const HeadContainer = styled.div`
 `;
 const SelectedFrame = styled.img`
   width: 240px;
+  top: 0;
 `;
 const FrameContainer = styled.div`
   display: flex;
@@ -67,4 +75,18 @@ const Frame = styled.img`
       background-color: ${color.Basic.gray100};
       border-radius: 2px;
     `}
+`;
+
+const ImgContainer = styled.div`
+  position: absolute;
+`;
+
+const ScreenImg = styled.img`
+  position: absolute;
+  background-color: red;
+  width: 220px;
+  height: 146px;
+  top: ${({ idx }) => 146 * idx + (idx + 1) * 6.7}px;
+  left: 10px;
+  z-index: -1;
 `;

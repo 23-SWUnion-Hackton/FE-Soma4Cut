@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { text } from "../style/text";
 import { color } from "../style/color";
-import { useRecoilState } from "recoil";
-import { MyImageAtom } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { AnotherImgAtom, ImageAlreadyAtom, MyImageAtom } from "../atoms";
 import { useNavigate } from "react-router-dom";
 export const Camera = () => {
   const nav = useNavigate();
@@ -13,12 +13,20 @@ export const Camera = () => {
 
   const [time, setTime] = useState(10);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime((prev) => prev - 1);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+  const imageAlready = useRecoilValue(ImageAlreadyAtom);
+  const anotherImage = useRecoilValue(AnotherImgAtom);
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTime((prev) => prev - 1);
+  //   }, 1000);
+  //   getWebCam((stream) => {
+  //     videoRef.current.srcObject = stream;
+  //   });
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, []);
 
   const getSeconds = (time) => {
     const seconds = Number(time % 60);
@@ -27,18 +35,16 @@ export const Camera = () => {
       setScreenShotTime((prev) => prev + 1);
 
       if (screenShotTime === 4) {
-        nav("/frame");
+        if (imageAlready === "start") {
+          nav("/show");
+        } else {
+          nav("/frame");
+        }
       }
       setTime(10);
     }
     return String(seconds);
   };
-
-  useEffect(() => {
-    getWebCam((stream) => {
-      videoRef.current.srcObject = stream;
-    });
-  }, []);
 
   const getWebCam = (callback) => {
     try {
@@ -72,7 +78,14 @@ export const Camera = () => {
 
   return (
     <Container>
-      <Video ref={videoRef} autoPlay id="videoCam" />
+      <div>
+        <VideoContainer>
+          <Video ref={videoRef} autoPlay id="videoCam" />
+          {imageAlready === "end" && (
+            <AlreadyImg src={anotherImage[screenShotTime - 1]} />
+          )}
+        </VideoContainer>
+      </div>
       <ResultContainer>
         <Timer>
           <text.display.d3>{getSeconds(time)}</text.display.d3>
@@ -87,11 +100,23 @@ export const Camera = () => {
     </Container>
   );
 };
+const VideoContainer = styled.div`
+  display: flex;
+  position: relative;
+`;
+const AlreadyImg = styled.img`
+  width: 47vw;
+  height: 530px;
+  left: 0;
+  top: 80px;
+  z-index: 20;
+  position: absolute;
+`;
 const Container = styled.div`
   width: 100vw;
   display: flex;
-  padding: 25px 12vw;
-  justify-content: center;
+  padding: 25px 16vw;
+  justify-content: space-between;
   align-items: start;
   gap: 30px;
 `;
