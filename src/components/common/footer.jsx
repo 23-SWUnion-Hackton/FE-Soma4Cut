@@ -26,6 +26,8 @@ const Container = styled.div`
   padding: 25px 12vw;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
+  bottom: 0;
 `;
 
 const LogoContainer = styled.div`
