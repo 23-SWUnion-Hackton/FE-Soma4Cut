@@ -14,19 +14,22 @@ export const ImageTypeAtom = atom({
 /** 이미 찍은 사람있음? start, end */
 export const ImageAlreadyAtom = atom({
   key: "imagealready",
-  default: "start",
+  default: "end",
 });
 
+/** 사용자 코드 */
 export const CodeAtom = atom({
   key: "code",
   default: "",
 });
 
+/** 다른 사람 사진 */
 export const AnotherImgAtom = atom({
   key: "anotherimg",
   default: ["", "", "", ""],
 });
 
+/** 내 사진 */
 export const MyImageAtom = atom({
   key: "myimg",
   default: [],
