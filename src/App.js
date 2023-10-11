@@ -7,6 +7,7 @@ import { SelectType } from "./page/selectType";
 import { Login } from "./page/login";
 import { SelectIsNew } from "./page/selectIsNew";
 import { InputCode } from "./page/inputCode";
+import Loading from "./page/loading";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route element={<Login />} path="/login" />
         <Route element={<Camera />} path="/camera" />
         <Route element={<SelectFrame />} path="/frame" />
+        <Route element={<Loading />} path="/loading" />
       </Routes>
     </>
   );
