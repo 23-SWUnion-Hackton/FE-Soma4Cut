@@ -6,24 +6,28 @@ import { text } from "../style/text";
 import { color } from "../style/color";
 import { Button } from "../style/button";
 import { useNavigate } from "react-router-dom";
-import { useResetRecoilState } from "recoil";
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 import {
   AnotherImgAtom,
   CodeAtom,
   ImageAlreadyAtom,
   ImageTypeAtom,
+  PrintAtom,
   ResultImgAtom,
   frameAtom,
 } from "../atoms";
 import { useEffect } from "react";
 const MainPage = () => {
   const nav = useNavigate();
+  const setPrint = useSetRecoilState(PrintAtom);
+
   const frame = useResetRecoilState(frameAtom);
   const imgType = useResetRecoilState(ImageTypeAtom);
   const imagealready = useResetRecoilState(ImageAlreadyAtom);
   const code = useResetRecoilState(CodeAtom);
   const anotherImg = useResetRecoilState(AnotherImgAtom);
   const resultImg = useResetRecoilState(ResultImgAtom);
+  const print = useResetRecoilState(PrintAtom);
 
   const Reset = () => {
     frame();
@@ -32,6 +36,7 @@ const MainPage = () => {
     code();
     anotherImg();
     resultImg();
+    print();
   };
   useEffect(() => {
     Reset();
@@ -58,7 +63,12 @@ const MainPage = () => {
           </Text>
           <ButtonContainer>
             <Button onClick={() => nav("/type")}>지금 사진 찍으러 가기</Button>
-            <PrintPhoto onClick={() => nav("/loading")}>
+            <PrintPhoto
+              onClick={() => {
+                setPrint("print");
+                nav("/codeinput");
+              }}
+            >
               이미 찍은 사진 출력하러 가기
             </PrintPhoto>
           </ButtonContainer>

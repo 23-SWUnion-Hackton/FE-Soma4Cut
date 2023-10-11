@@ -5,6 +5,11 @@ export const frameAtom = atom({
   default: 0,
 });
 
+/** 사진 촬영? 출력? print, screenshot */
+export const PrintAtom = atom({
+  key: "print",
+  default: "screenshot",
+});
 /** 혼자? 멀리있는 친구랑?  alone, couple */
 export const ImageTypeAtom = atom({
   key: "imagetype",
@@ -38,4 +43,10 @@ export const ResultImgAtom = atom({
 export const MyImageAtom = atom({
   key: "myimg",
   default: [],
+});
+
+/** 내 사진  결과 blob */
+export const ResultBlobImg = atom({
+  key: "blobResult",
+  default: "",
 });

@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { frames } from "../assets/index";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { ImageTypeAtom, MyImageAtom, ResultImgAtom, frameAtom } from "../atoms";
+import { ImageTypeAtom, MyImageAtom, ResultBlobImg, ResultImgAtom, frameAtom } from "../atoms";
 import { Button } from "../style/button";
 import { color } from "../style/color";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ export const SelectFrame = () => {
   const screenImg = useRecoilValue(MyImageAtom);
   const nav = useNavigate();
   const setResultImg = useSetRecoilState(ResultImgAtom);
+  const setResultBlogImg = useSetRecoilState(ResultBlobImg);
 
   // const makeImg = () => {
   //   const canvas = document.createElement("canvas");
@@ -86,6 +87,10 @@ export const SelectFrame = () => {
       context.drawImage(framesImg, 0, 0, 240, 716);
 
       setResultImg(canvas.toDataURL("image/jpeg"));
+      canvas.toBlob((blob) => {
+        setResultBlogImg(blob);
+        console.log(blob);
+      }, "image/jpeg");
     });
   };
 

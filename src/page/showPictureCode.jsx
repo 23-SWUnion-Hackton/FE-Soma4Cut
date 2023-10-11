@@ -5,9 +5,8 @@ import { text } from "../style/text";
 import { color } from "../style/color";
 import CopyIcon from "../assets/copyIcon";
 import { useRecoilValue } from "recoil";
-import { ResultImgAtom } from "../atoms";
+import { ResultImgAtom, ResultBlobImg } from "../atoms";
 import { Button } from "../style/button";
-
 const ShowPictureCode = () => {
   const [code, setCode] = useState("");
 
@@ -19,8 +18,16 @@ const ShowPictureCode = () => {
       alert("클립보드 복사에 실패했습니다.");
     }
   };
-
   const resultImg = useRecoilValue(ResultImgAtom);
+  const resultBlobImg = useRecoilValue(ResultBlobImg);
+
+  function createMultipartFormData(blob, fieldName) {
+    const formData = new FormData();
+    formData.append(fieldName, blob);
+    return formData;
+  }
+
+  const formData = createMultipartFormData(resultBlobImg, "images");
 
   return (
     <Container>

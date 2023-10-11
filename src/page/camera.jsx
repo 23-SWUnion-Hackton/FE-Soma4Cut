@@ -2,8 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { text } from "../style/text";
 import { color } from "../style/color";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { AnotherImgAtom, ImageAlreadyAtom, MyImageAtom } from "../atoms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  AnotherImgAtom,
+  ImageAlreadyAtom,
+  MyImageAtom,
+  ResultBlobImg,
+} from "../atoms";
 import { useNavigate } from "react-router-dom";
 export const Camera = () => {
   const nav = useNavigate();
@@ -19,13 +24,12 @@ export const Camera = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setTime((prev) => prev - 1);
-    }, 1000);
+    }, 100);
     getWebCam((stream) => {
       videoRef.current.srcObject = stream;
     });
     return () => {
       clearInterval(timer);
-      console.log('exit')
     };
   }, []);
 
@@ -37,9 +41,9 @@ export const Camera = () => {
 
       if (screenShotTime === 4) {
         if (imageAlready === "start") {
-          nav("/show")
+          nav("/show");
         } else {
-          nav("/frame")
+          nav("/frame");
         }
       }
       setTime(10);
@@ -55,7 +59,6 @@ export const Camera = () => {
       };
       navigator.mediaDevices.getUserMedia(constraints).then(callback);
     } catch (err) {
-      console.log(err);
       return undefined;
     }
   };

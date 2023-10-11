@@ -5,13 +5,14 @@ import { Button } from "../style/button";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { MyImageAtom } from "../atoms";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CopyIcon from "../assets/copyIcon";
 
 export const ShowCode = () => {
   const nav = useNavigate();
   const MyImg = useRecoilValue(MyImageAtom);
   const [code, setCode] = useState("");
+  const formData = new FormData();
 
   const copyContent = async () => {
     try {
@@ -21,7 +22,8 @@ export const ShowCode = () => {
       alert("클립보드 복사에 실패했습니다.");
     }
   };
-  console.log(MyImg);
+
+/// form 데이터 리스트 물어보기
 
   return (
     <Container>
@@ -53,7 +55,7 @@ export const ShowCode = () => {
 };
 const Container = styled.div`
   display: flex;
-  padding: 100px 17vw;
+  padding: 50px 17vw;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -86,7 +88,6 @@ const ImgContainer = styled.div`
 `;
 const Img = styled.img`
   width: 48%;
-  height: 150px;
   background-color: ${color.Basic.black};
 `;
 

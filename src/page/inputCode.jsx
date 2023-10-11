@@ -1,14 +1,15 @@
 import styled from "styled-components";
 import { color } from "../style/color";
 import { text } from "../style/text";
-import { useRecoilState } from "recoil";
-import { CodeAtom } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { CodeAtom, PrintAtom } from "../atoms";
 import { Button } from "../style/button";
 import { useNavigate } from "react-router-dom";
 export const InputCode = () => {
   const [code, setCode] = useRecoilState(CodeAtom);
   const nav = useNavigate();
-
+  const print = useRecoilValue(PrintAtom);
+console.log(print)
   return (
     <Container>
       <Children>
@@ -29,14 +30,22 @@ export const InputCode = () => {
           <Button
             gray
             onClick={() => {
-              nav("/isnew");
+              if (print === "screenshot") {
+                nav("/isnew");
+              } else {
+                window.location.href = "/";
+              }
             }}
           >
             이전
           </Button>
           <Button
             onClick={() => {
-              nav("/watch");
+              if (print === "screenshot") {
+                nav("/watch");
+              } else {
+                nav('/loading')
+              }
             }}
           >
             다음

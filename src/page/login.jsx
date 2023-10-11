@@ -11,6 +11,7 @@ export const Login = () => {
   const nav = useNavigate();
 
   const loginOnclick = () => {
+    
     nav("/isnew");
   };
   return (
