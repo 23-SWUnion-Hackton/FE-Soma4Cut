@@ -55,10 +55,6 @@ export const Camera = () => {
           <ImgBox />
           <ImgBox />
           <ImgBox />
-          <ImgBox />
-          <ImgBox />
-          <ImgBox />
-          <ImgBox />
         </ImgContainer>
       </ResultContainer>
     </Container>

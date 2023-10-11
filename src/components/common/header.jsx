@@ -12,12 +12,6 @@ export const Header = () => {
         <LogoIcon />
         <Logo />
       </LogoContainer>
-      <LinkButton to="/">
-        <text.body.body3>사진 찍으러 가기</text.body.body3>
-      </LinkButton>
-      <LinkButton>
-        <text.body.body3 to="/">소마스페이스</text.body.body3>
-      </LinkButton>
     </Container>
   );
 };
@@ -30,6 +24,7 @@ const Container = styled.div`
   padding: 10px 12vw;
   gap: 5vw;
   align-items: center;
+  box-shadow: 0px 0px 4px gray;
 `;
 
 const LogoContainer = styled.div`
