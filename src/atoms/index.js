@@ -50,3 +50,8 @@ export const ResultBlobImg = atom({
   key: "blobResult",
   default: "",
 });
+
+export const AccessTokenAtom = atom({
+  key: "accessToken",
+  default: "",
+});
