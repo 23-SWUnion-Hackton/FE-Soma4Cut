@@ -3,19 +3,21 @@ import { color } from "../style/color";
 import { text } from "../style/text";
 import { Button } from "../style/button";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { AnotherImgAtom } from "../atoms";
 
 export const Another = () => {
   const nav = useNavigate();
+  const anotherImages = useRecoilState(AnotherImgAtom);
 
   return (
     <Container>
       <Children>
         <text.heading.h5>사진을 성공적으로 불러왔어요!</text.heading.h5>
         <ImgContainer>
-          <Img />
-          <Img />
-          <Img />
-          <Img />
+          {anotherImages.map((src) => (
+            <Img src={src} />
+          ))}
         </ImgContainer>
         <ButtonContainer>
           <Button
@@ -71,7 +73,7 @@ const ImgContainer = styled.div`
   row-gap: 12px;
   width: 100%;
 `;
-const Img = styled.div`
+const Img = styled.img`
   width: 48%;
   height: 150px;
   background-color: ${color.Basic.black};
