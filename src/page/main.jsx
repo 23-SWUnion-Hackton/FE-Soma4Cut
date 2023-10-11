@@ -6,9 +6,36 @@ import { text } from "../style/text";
 import { color } from "../style/color";
 import { Button } from "../style/button";
 import { useNavigate } from "react-router-dom";
-
+import { useResetRecoilState } from "recoil";
+import {
+  AnotherImgAtom,
+  CodeAtom,
+  ImageAlreadyAtom,
+  ImageTypeAtom,
+  ResultImgAtom,
+  frameAtom,
+} from "../atoms";
+import { useEffect } from "react";
 const MainPage = () => {
   const nav = useNavigate();
+  const frame = useResetRecoilState(frameAtom);
+  const imgType = useResetRecoilState(ImageTypeAtom);
+  const imagealready = useResetRecoilState(ImageAlreadyAtom);
+  const code = useResetRecoilState(CodeAtom);
+  const anotherImg = useResetRecoilState(AnotherImgAtom);
+  const resultImg = useResetRecoilState(ResultImgAtom);
+
+  const Reset = () => {
+    frame();
+    imgType();
+    imagealready();
+    code();
+    anotherImg();
+    resultImg();
+  };
+  useEffect(() => {
+    Reset();
+  }, []);
 
   return (
     <Container>
@@ -31,7 +58,7 @@ const MainPage = () => {
           </Text>
           <ButtonContainer>
             <Button onClick={() => nav("/type")}>지금 사진 찍으러 가기</Button>
-            <PrintPhoto onClick={() => nav("print")}>
+            <PrintPhoto onClick={() => nav("/loading")}>
               이미 찍은 사진 출력하러 가기
             </PrintPhoto>
           </ButtonContainer>

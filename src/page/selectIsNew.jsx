@@ -13,7 +13,7 @@ export const SelectIsNew = () => {
     <Container>
       <SelectCouple
         onClick={() => {
-          nav("/");
+          nav("/camera");
           setImageAlready("start");
         }}
       >

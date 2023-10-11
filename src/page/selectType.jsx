@@ -23,12 +23,12 @@ export const SelectType = () => {
       </SelectCouple>
       <SelectAlone
         onClick={() => {
-          nav("/");
+          nav('/camera')
           setImageType("alone");
         }}
       >
         <text.heading.h1>
-          이번에만 <br /> 찍어요!!
+          여기서만 <br /> 찍어요!!
         </text.heading.h1>
       </SelectAlone>
     </Container>

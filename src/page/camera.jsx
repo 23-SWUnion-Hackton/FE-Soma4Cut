@@ -16,17 +16,18 @@ export const Camera = () => {
   const imageAlready = useRecoilValue(ImageAlreadyAtom);
   const anotherImage = useRecoilValue(AnotherImgAtom);
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setTime((prev) => prev - 1);
-  //   }, 1000);
-  //   getWebCam((stream) => {
-  //     videoRef.current.srcObject = stream;
-  //   });
-  //   return () => {
-  //     clearInterval(timer);
-  //   };
-  // }, []);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime((prev) => prev - 1);
+    }, 1000);
+    getWebCam((stream) => {
+      videoRef.current.srcObject = stream;
+    });
+    return () => {
+      clearInterval(timer);
+      console.log('exit')
+    };
+  }, []);
 
   const getSeconds = (time) => {
     const seconds = Number(time % 60);
@@ -36,9 +37,9 @@ export const Camera = () => {
 
       if (screenShotTime === 4) {
         if (imageAlready === "start") {
-          nav("/show");
+          nav("/show")
         } else {
-          nav("/frame");
+          nav("/frame")
         }
       }
       setTime(10);
@@ -68,7 +69,6 @@ export const Camera = () => {
     context.scale(-1, 1);
     context.translate(-1024, 0);
     context.drawImage(videoCam, 0, 0, 1024, 786);
-    console.log(videoCam.videoWidth, videoCam.videoHeight);
     canvas.toBlob((blob) => {
       const blobUrl = URL.createObjectURL(blob);
 

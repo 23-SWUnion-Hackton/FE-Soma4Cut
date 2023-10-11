@@ -26,7 +26,12 @@ export const CodeAtom = atom({
 /** 다른 사람 사진 */
 export const AnotherImgAtom = atom({
   key: "anotherimg",
-  default: ["", "", "", ""],
+  default: [],
+});
+
+export const ResultImgAtom = atom({
+  key: "resultimg",
+  default: "",
 });
 
 /** 내 사진 */
