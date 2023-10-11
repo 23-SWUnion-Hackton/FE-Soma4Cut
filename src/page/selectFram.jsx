@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { frames } from "../assets/index";
 import { text } from "../style/text";
 import { useRecoilState } from "recoil";
-import { frameAtom } from "../atoms/img";
+import { frameAtom } from "../atoms";
 import { Button } from "../style/button";
 import { color } from "../style/color";
 

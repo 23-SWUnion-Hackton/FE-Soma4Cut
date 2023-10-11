@@ -5,11 +5,13 @@ import camera from "../assets/camera.png";
 import { text } from "../style/text";
 import { color } from "../style/color";
 import { Button } from "../style/button";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
+  const nav = useNavigate();
+
   return (
     <Container>
-      <Header />
       <Box>
         <Image src={camera} />
         <Main>
@@ -27,7 +29,12 @@ const MainPage = () => {
               </Description>
             </div>
           </Text>
-          <Button>지금 사진 찍으러 가기</Button>
+          <ButtonContainer>
+            <Button onClick={() => nav("/type")}>지금 사진 찍으러 가기</Button>
+            <PrintPhoto onClick={() => nav("print")}>
+              이미 찍은 사진 출력하러 가기
+            </PrintPhoto>
+          </ButtonContainer>
         </Main>
       </Box>
       <Footer />
@@ -35,6 +42,17 @@ const MainPage = () => {
   );
 };
 
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 300px;
+`;
+
+const PrintPhoto = styled(text.paragraph.p1)`
+  cursor: pointer;
+  color: ${color.Basic.gray500};
+`;
 const Image = styled.img`
   width: 548px;
   height: 548px;
@@ -44,7 +62,6 @@ const Image = styled.img`
 
 const Container = styled.div`
   width: 100%;
-  min-height: 100vh;
 `;
 
 const Box = styled.div`
