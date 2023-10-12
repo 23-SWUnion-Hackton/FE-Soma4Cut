@@ -100,7 +100,7 @@ const Container = styled.div`
 `;
 
 const Box = styled.div`
-  margin: 10vh 20vw;
+  margin: 15vh 20vw 0 20vw;
   height: calc(80vh - 120px);
 `;
 
