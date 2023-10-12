@@ -88,6 +88,9 @@ export const Camera = () => {
             <AlreadyImg src={anotherImage[screenShotTime - 1]} />
           )}
         </VideoContainer>
+        <ImgCount>
+          <text.body.body1>{screenShotTime - 1} / 4</text.body.body1>
+        </ImgCount>
       </div>
       <ResultContainer>
         <Timer>
@@ -150,4 +153,9 @@ const ImgContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px 10px;
+`;
+
+const ImgCount = styled.div`
+  display: flex;
+  justify-content: end;
 `;
