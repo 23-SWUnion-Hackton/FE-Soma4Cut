@@ -11,6 +11,7 @@ import Loading from "./page/loading";
 import { Another } from "./page/another";
 import ShowPictureCode from "./page/showPictureCode";
 import { ShowCode } from "./page/showCode";
+import { Select } from "./page/select";
 import NotFound from "./page/404";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Header />
       <Routes>
         <Route element={<MainPage />} path="/" />
+        <Route element={<Select />} path="/select" />
         <Route element={<InputCode />} path="/codeinput" />
         <Route element={<Another />} path="/watch" />
         <Route element={<SelectIsNew />} path="/isnew" />

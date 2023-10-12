@@ -3,17 +3,14 @@ import styled from "styled-components";
 import { text } from "../style/text";
 import { color } from "../style/color";
 import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  AnotherImgAtom,
-  ImageAlreadyAtom,
-  MyImageAtom,
-} from "../atoms";
+import { AnotherImgAtom, ImageAlreadyAtom, MyImageAtom8 } from "../atoms";
 import { useNavigate } from "react-router-dom";
 export const Camera = () => {
   const nav = useNavigate();
   const videoRef = useRef(null);
-  const [screenImg, setScreenImg] = useRecoilState(MyImageAtom);
+  const [screenImg, setScreenImg] = useRecoilState(MyImageAtom8);
   const [screenShotTime, setScreenShotTime] = useState(1);
+  const [showImg, setShowImg] = useState([]);
 
   const [time, setTime] = useState(10);
 
@@ -23,7 +20,7 @@ export const Camera = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setTime((prev) => prev - 1);
-    }, 1000);
+    }, 200);
     getWebCam((stream) => {
       videoRef.current.srcObject = stream;
     });
@@ -32,18 +29,18 @@ export const Camera = () => {
     };
   }, []);
 
+  useEffect(() => {
+    setShowImg(screenImg.slice(Math.max(0,screenImg.length-3)));
+  }, [screenImg]);
+
   const getSeconds = (time) => {
     const seconds = Number(time % 60);
     if (seconds === 0) {
       ScreenShot();
       setScreenShotTime((prev) => prev + 1);
 
-      if (screenShotTime === 4) {
-        if (imageAlready === "start") {
-          nav("/show");
-        } else {
-          nav("/frame");
-        }
+      if (screenShotTime === 8) {
+        nav('/select')
       }
       setTime(10);
     }
@@ -88,7 +85,7 @@ export const Camera = () => {
           )}
         </VideoContainer>
         <ImgCount>
-          <text.body.body1>{screenShotTime - 1} / 4</text.body.body1>
+          <text.body.body1>{screenShotTime - 1} / 8</text.body.body1>
         </ImgCount>
       </div>
       <ResultContainer>
@@ -97,8 +94,8 @@ export const Camera = () => {
           <text.heading.h3>초 후 촬영</text.heading.h3>
         </Timer>
         <ImgContainer>
-          {screenImg.map((src) => (
-            <ImgBox src={src} />
+          {showImg.map((src, index) => (
+            <ImgBox src={src} key={index} />
           ))}
         </ImgContainer>
       </ResultContainer>
