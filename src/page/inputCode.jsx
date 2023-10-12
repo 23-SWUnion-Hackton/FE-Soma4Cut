@@ -9,7 +9,6 @@ export const InputCode = () => {
   const [code, setCode] = useRecoilState(CodeAtom);
   const nav = useNavigate();
   const print = useRecoilValue(PrintAtom);
-console.log(print)
   return (
     <Container>
       <Children>

@@ -6,6 +6,7 @@ import {
   AnotherImgAtom,
   AnotherSelectedImg,
   ImageAlreadyAtom,
+  ImageTypeAtom,
   MyImageAtom,
   MyImageAtom8,
   MyImageBlob8,
@@ -25,6 +26,7 @@ export const Select = () => {
   const [anotherSelectedImg, setAnotherSelectedImg] =
     useRecoilState(AnotherSelectedImg);
   const anotherImg = useRecoilValue(AnotherImgAtom);
+  const imgType = useRecoilValue(ImageTypeAtom);
 
   const imageAlready = useRecoilValue(ImageAlreadyAtom);
 
@@ -33,33 +35,40 @@ export const Select = () => {
       if (!selectImg.includes(noneSelectedImage[e])) {
         setSelectImg(selectImg.concat([noneSelectedImage[e]]));
         setSelectImgBlob(selectImgBlob.concat([nonSelectedImageBlob[e]]));
-        setAnotherSelectedImg(anotherSelectedImg.concat([anotherImg[e]]));
+        setAnotherSelectedImg(
+          anotherSelectedImg.concat([anotherImg[Math.floor(e / 2)]])
+        );
       } else {
         setSelectImg(selectImg.filter((v) => noneSelectedImage[e] !== v));
         setSelectImgBlob(
           selectImgBlob.filter((v) => nonSelectedImageBlob[e] !== v)
         );
         setAnotherSelectedImg(
-          anotherSelectedImg.filter((v) => anotherSelectedImg[e] !== v)
+          anotherSelectedImg.filter(
+            (v) => anotherSelectedImg[Math.floor(e / 2)] !== v
+          )
         );
       }
     } else if (selectImg.includes(noneSelectedImage[e])) {
       setSelectImg(selectImg.filter((v) => noneSelectedImage[e] !== v));
-      setSelectImgBlob(selectImg.filter((v) => nonSelectedImageBlob[e] !== v));
+      setSelectImgBlob(
+        selectImgBlob.filter((v) => nonSelectedImageBlob[e] !== v)
+      );
       setAnotherSelectedImg(
-        anotherSelectedImg.filter((v) => anotherSelectedImg[e] !== v)
+        anotherSelectedImg.filter(
+          (v) => anotherSelectedImg[Math.floor(e / 2)] !== v
+        )
       );
     }
   };
-  useEffect(() => {
-    console.log(selectImg, selectImgBlob, anotherSelectedImg);
-  }, [selectImg]);
 
   const CheckOnClick = () => {
     if (selectImg.length !== 4) {
       alertWarning("사진 4장을 선택해주세요");
     } else {
-      if (imageAlready === "start") {
+      if (imgType === "alone") {
+        nav("/frame");
+      } else if (imageAlready === "start") {
         nav("/show");
       } else {
         nav("/frame");
@@ -87,7 +96,6 @@ export const Select = () => {
                   blur={selectImg.includes(noneSelectedImage[index])}
                   src={src}
                   alt={src}
-                  onClick={() => onChooseImg(index)}
                 />
                 {selectImg.includes(noneSelectedImage[index]) && (
                   <BlurContainer onClick={() => onChooseImg(index)}>
@@ -96,6 +104,10 @@ export const Select = () => {
                     </Button>
                   </BlurContainer>
                 )}
+                <AnotherImg
+                  src={anotherImg[Math.floor(index / 2)]}
+                  onClick={() => onChooseImg(index)}
+                />
               </SelectedImgContainer>
             </div>
           ))}
@@ -160,7 +172,7 @@ const BlurContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   position: relative;
   z-index: 1;
-  top: -140px;
+  top: -143px;
   left: 0;
   display: flex;
   justify-content: center;
@@ -174,4 +186,13 @@ const ExplatinContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: end;
+`;
+
+const AnotherImg = styled.img`
+  position: absolute;
+  width: 180px;
+  height: 140px;
+  top: -2px;
+  left: 0;
+  cursor: pointer;
 `;

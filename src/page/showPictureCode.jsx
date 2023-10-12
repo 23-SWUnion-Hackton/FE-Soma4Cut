@@ -5,16 +5,24 @@ import { text } from "../style/text";
 import { color } from "../style/color";
 import CopyIcon from "../assets/copyIcon";
 import { useRecoilValue } from "recoil";
-import { ResultImgAtom, ResultBlobImg } from "../atoms";
+import {
+  ResultImgAtom,
+  ResultBlobImg,
+  AccessTokenAtom,
+  ImageTypeAtom,
+} from "../atoms";
 import { Button } from "../style/button";
 import { alertError, alertSuccess } from "../utils/toastify";
 import axios from "axios";
 import { AUTH_URL } from "../constants/config";
-const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODVkMmU0Ni0yYWM1LTQ3MzItODJiOC01ZTc0NWJiNDgwOGUiLCJ0eXBlIjoiYWNjZXNzIiwiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIiwiaWF0IjoxNjk3MDk1NjAyLCJleHAiOjE2OTcwOTYyMDJ9.8HwAod50JstC2z6uz0sVcBbPRpKm6pVgY04kz-4J3cE";
 
+const token =
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2ZjhjNzcxZi03NjM3LTRjNWYtYjA3Ny1hNTA1ZjAxZjZlMmEiLCJ0eXBlIjoiYWNjZXNzIiwiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIiwiaWF0IjoxNjk3MTUxMDc1LCJleHAiOjE2OTcxNjEwNzV9.wD0bRmzIOTCpVy_umtMmFCXkEje9t1GS-PdDKyV73Hk";
 const ShowPictureCode = () => {
   const [code, setCode] = useState("");
+  const imageType = useRecoilValue(ImageTypeAtom);
+
+  const tokenAtom = useRecoilValue(AccessTokenAtom);
 
   const copyContent = async () => {
     try {
@@ -39,12 +47,11 @@ const ShowPictureCode = () => {
       .request({
         url: `${AUTH_URL}/user/image/complete`,
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${imageType === "alone" ? token : tokenAtom}`,
           "Content-Type": "multipart/form-data",
         },
         method: "post",
         data: formData,
-        responseType: "blob",
       })
       .then((res) => {
         setLoading(false);
@@ -53,7 +60,7 @@ const ShowPictureCode = () => {
       .catch((err) => {
         alertError("오류가 발생하였습니다. 관리자에게 문의해주세요");
         setLoading(false);
-        window.location.href = "/";
+        // window.location.href = "/";
       });
   };
 

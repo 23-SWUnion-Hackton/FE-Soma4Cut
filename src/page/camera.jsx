@@ -25,7 +25,7 @@ export const Camera = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setTime((prev) => prev - 1);
-    }, 100);
+    }, 1000);
     getWebCam((stream) => {
       videoRef.current.srcObject = stream;
     });
@@ -47,7 +47,7 @@ export const Camera = () => {
       if (screenShotTime === 8) {
         nav("/select");
       }
-      setTime(10);
+      setTime(4);
     }
     return String(seconds);
   };
@@ -88,7 +88,9 @@ export const Camera = () => {
         <VideoContainer>
           <Video ref={videoRef} autoPlay id="videoCam" />
           {imageAlready === "end" && (
-            <AlreadyImg src={anotherImage[Math.floor(screenShotTime/2) - 1]} />
+            <AlreadyImg
+              src={anotherImage[Math.floor((screenShotTime+1) / 2)-1]}
+            />
           )}
         </VideoContainer>
         <ImgCount>

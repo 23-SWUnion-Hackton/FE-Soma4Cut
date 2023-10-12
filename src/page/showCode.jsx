@@ -4,16 +4,16 @@ import { text } from "../style/text";
 import { Button } from "../style/button";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { MyImageAtom, MySelectImageBlob } from "../atoms";
+import { AccessTokenAtom, MyImageAtom, MySelectImageBlob } from "../atoms";
 import { useEffect, useState } from "react";
 import CopyIcon from "../assets/copyIcon";
 import { alertError, alertSuccess } from "../utils/toastify";
 import axios from "axios";
 import { AUTH_URL } from "../constants/config";
-const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODVkMmU0Ni0yYWM1LTQ3MzItODJiOC01ZTc0NWJiNDgwOGUiLCJ0eXBlIjoiYWNjZXNzIiwiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIiwiaWF0IjoxNjk3MDk1NjAyLCJleHAiOjE2OTcwOTYyMDJ9.8HwAod50JstC2z6uz0sVcBbPRpKm6pVgY04kz-4J3cE";
+
 export const ShowCode = () => {
   const MyImg = useRecoilValue(MySelectImageBlob);
+  const token = useRecoilValue(AccessTokenAtom);
   const MyImgUrl = useRecoilValue(MyImageAtom);
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,34 +42,26 @@ export const ShowCode = () => {
     form.append("image2", image2);
     form.append("image3", image3);
     form.append("image4", image4);
-    console.log(MyImg);
 
-    console.log(image1);
-    console.log(image2);
-    console.log(image3);
-    console.log(image4);
-    // axios
-    //   .request({
-    //     url: `${AUTH_URL}/user/image`,
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //     method: "post",
-    //     data: form,
-    //     responseType: "blob",
-    //   })
-    //   .then((res) => {
-    //     setLoading(false);
-    //     console.log(res.data.code);
-    //     // setCode(res.data.code);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     alertError("오류가 발생하였습니다. 관리자에게 문의해주세요");
-    //     setLoading(false);
-    //     // nav("/");
-    //   });
+    axios
+      .request({
+        url: `${AUTH_URL}/user/image`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+        method: "post",
+        data: form,
+      })
+      .then((res) => {
+        setLoading(false);
+        setCode(res.data.code);
+      })
+      .catch((err) => {
+        alertError("오류가 발생하였습니다. 관리자에게 문의해주세요");
+        setLoading(false);
+        // window.location.href = "/";
+      });
   };
 
   useEffect(() => {

@@ -9,8 +9,8 @@ export const LogoIcon = () => {
     >
       <rect width="40" height="40" rx="20" fill="#F6869C" />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M8.64062 18.0659V28.1131C8.64062 29.1551 9.48537 29.9999 10.5274 29.9999H29.4897C30.5317 29.9999 31.3765 29.1551 31.3765 28.1131V18.0659H8.64062Z"
         fill="#F2F2F2"
       />

@@ -19,7 +19,7 @@ export const ImageTypeAtom = atom({
 /** 이미 찍은 사람있음? start, end */
 export const ImageAlreadyAtom = atom({
   key: "imagealready",
-  default: "end",
+  default: "start",
 });
 
 /** 사용자 코드 */

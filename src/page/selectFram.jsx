@@ -12,6 +12,7 @@ import {
 import { Button } from "../style/button";
 import { color } from "../style/color";
 import { useNavigate } from "react-router-dom";
+import { alertError } from "../utils/toastify";
 
 export const SelectFrame = () => {
   const [frame, setFrame] = useRecoilState(frameAtom);
@@ -28,6 +29,7 @@ export const SelectFrame = () => {
     canvas.height = 1687.21;
     const context = canvas.getContext("2d");
     const newImage1 = new Image();
+    newImage1.crossOrigin = "Anonymous";
     newImage1.src = screenImg[0];
 
     const newImage2 = new Image();
@@ -44,12 +46,16 @@ export const SelectFrame = () => {
 
     if (imageAlready === "end") {
       const anotherImg1 = new Image();
+      anotherImg1.crossOrigin = "Anonymous";
       anotherImg1.src = anotherImg[0];
       const anotherImg2 = new Image();
+      anotherImg2.crossOrigin = "Anonymous";
       anotherImg2.src = anotherImg[1];
       const anotherImg3 = new Image();
+      anotherImg3.crossOrigin = "Anonymous";
       anotherImg3.src = anotherImg[2];
       const anotherImg4 = new Image();
+      anotherImg4.crossOrigin = "Anonymous";
       anotherImg4.src = anotherImg[3];
 
       Promise.all([
@@ -62,22 +68,25 @@ export const SelectFrame = () => {
         loadImage(anotherImg2),
         loadImage(anotherImg3),
         loadImage(anotherImg4),
-      ]).then(() => {
-        context.drawImage(newImage1, 17, 19, 445, 342);
-        context.drawImage(newImage2, 17, 381, 445, 342);
-        context.drawImage(newImage3, 17, 742, 445, 342);
-        context.drawImage(newImage4, 17, 1103, 445, 342);
-        context.drawImage(anotherImg1, 17, 19, 445, 342);
-        context.drawImage(anotherImg2, 17, 381, 445, 342);
-        context.drawImage(anotherImg3, 17, 742, 445, 342);
-        context.drawImage(anotherImg4, 17, 1103, 445, 342);
-        context.drawImage(framesImg, 0, 0, 480, 1687.21);
-
-        setResultImg(canvas.toDataURL("image/jpeg"));
-        canvas.toBlob((blob) => {
-          setResultBlogImg(blob);
-        }, "image/jpeg");
-      });
+      ])
+        .then(() => {
+          context.drawImage(newImage1, 17, 19, 445, 342);
+          context.drawImage(newImage2, 17, 381, 445, 342);
+          context.drawImage(newImage3, 17, 742, 445, 342);
+          context.drawImage(newImage4, 17, 1103, 445, 342);
+          context.drawImage(anotherImg1, 17, 19, 445, 342);
+          context.drawImage(anotherImg2, 17, 381, 445, 342);
+          context.drawImage(anotherImg3, 17, 742, 445, 342);
+          context.drawImage(anotherImg4, 17, 1103, 445, 342);
+          context.drawImage(framesImg, 0, 0, 480, 1687.21);
+          setResultImg(canvas.toDataURL("image/jpeg"));
+          canvas.toBlob((blob) => {
+            setResultBlogImg(blob);
+          }, "image/jpeg");
+        })
+        .catch(() => {
+          alertError("error 발생");
+        });
     } else {
       Promise.all([
         loadImage(newImage1),
@@ -112,7 +121,10 @@ export const SelectFrame = () => {
         <ImgContainer>
           <SelectedFrame src={frames[frame]} />
           {screenImg.map((src, index) => (
-            <ScreenImg src={src} idx={index} />
+            <>
+              <ScreenImg src={src} idx={index} />
+              <AnotherImg src={anotherImg[index]} idx={index} />
+            </>
           ))}
         </ImgContainer>
       </div>
@@ -189,6 +201,14 @@ const ImgContainer = styled.div`
 const ScreenImg = styled.img`
   position: absolute;
   background-color: red;
+  width: 187px;
+  top: ${({ idx }) => 143 * idx + (idx + 1) * 7}px;
+  left: 7px;
+  z-index: -1;
+`;
+
+const AnotherImg = styled.img`
+  position: absolute;
   width: 187px;
   top: ${({ idx }) => 143 * idx + (idx + 1) * 7}px;
   left: 7px;

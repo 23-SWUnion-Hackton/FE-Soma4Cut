@@ -19,39 +19,35 @@ export const Login = () => {
   const setAccessToken = useSetRecoilState(AccessTokenAtom);
 
   const loginOnclick = () => {
-    if (pattern1.test(id)) {
+    if (id) {
       if (pattern2.test(pw)) {
-        // axios
-        //   .request({
-        //     url: `${AUTH_URL}/user`,
-        //     method: "post",
-        //     data: {
-        //       name: id,
-        //       password: pw,
-        //     },
-        //   })
-        //   .then((res) => {
-        //     const { accessToken } = res.data;
-        //     setAccessToken(accessToken);
-        //     setTimeout(function () {
-        //       nav("/isnew");
-        //     }, 500);
-        //     nav("/isnew");
-        //   })
-        //   .catch((err) => {
-        //     // alertError("로그인에 실패하였습니다.");
-        //     nav("/isnew");
-        //   });
-        setTimeout(function () {
-          nav("/isnew");
-        }, 500);
+        axios
+          .request({
+            url: `${AUTH_URL}/auth/sign-in`,
+            method: "post",
+            data: {
+              name: id,
+              password: pw,
+            },
+          })
+          .then((res) => {
+            const { accessToken } = res.data;
+            setAccessToken(accessToken);
+            setTimeout(function () {
+              nav("/isnew");
+            }, 500);
+            nav("/isnew");
+          })
+          .catch((err) => {
+            alertError("로그인에 실패하였습니다.");
+          });
       } else {
         alertWarning(
           "비밀번호 형식은 8~16자 사이의 영문 + 특수문자 1개 이상 형식입니다."
         );
       }
     } else {
-      alertWarning("닉네임 형식은 1~10자 사이의 영문 형식입니다.");
+      alertWarning("닉네임을 입력해주세요");
     }
   };
 
@@ -78,7 +74,7 @@ export const Login = () => {
           </div>
         </InputContainer>
         <ButtonContainer>
-          <Button gray onClick={() => nav("/type")}>
+          <Button gray="true" onClick={() => nav("/type")}>
             이전
           </Button>
           <Button onClick={loginOnclick}>로그인</Button>
