@@ -50,15 +50,13 @@ const MainPage = () => {
           <Text>
             <div>
               <Heading>나를 표현하는 독특한 네컷</Heading>
-              <Heading>이제는 AI와 함께</Heading>
+              <Heading>이제는 다른 사람과 함께</Heading>
             </div>
             <div>
               <Description>
-                AI에게 당신이 원하는 배경을 요청해 보세요.
+                다른 사람의 사진 코드를 이용해 함께 사진을 찍을 수 있어요.
               </Description>
-              <Description>
-                당신만의 독창적인 네컷이 탄생 할 거에요!
-              </Description>
+              <Description>친구, 가족은 물론 유명인 까지!</Description>
             </div>
           </Text>
           <ButtonContainer>
@@ -102,7 +100,7 @@ const Container = styled.div`
 `;
 
 const Box = styled.div`
-  margin: 10vh 20vw;
+  margin: 15vh 20vw 0 20vw;
   height: calc(80vh - 120px);
 `;
 
