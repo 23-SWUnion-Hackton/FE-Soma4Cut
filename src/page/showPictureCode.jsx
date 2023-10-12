@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Footer } from "../components/common/footer";
 import { text } from "../style/text";
@@ -8,6 +8,11 @@ import { useRecoilValue } from "recoil";
 import { ResultImgAtom, ResultBlobImg } from "../atoms";
 import { Button } from "../style/button";
 import { alertError, alertSuccess } from "../utils/toastify";
+import axios from "axios";
+import { AUTH_URL } from "../constants/config";
+const token =
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxODVkMmU0Ni0yYWM1LTQ3MzItODJiOC01ZTc0NWJiNDgwOGUiLCJ0eXBlIjoiYWNjZXNzIiwiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIiwiaWF0IjoxNjk3MDk1NjAyLCJleHAiOjE2OTcwOTYyMDJ9.8HwAod50JstC2z6uz0sVcBbPRpKm6pVgY04kz-4J3cE";
+
 const ShowPictureCode = () => {
   const [code, setCode] = useState("");
 
@@ -22,13 +27,39 @@ const ShowPictureCode = () => {
   const resultImg = useRecoilValue(ResultImgAtom);
   const resultBlobImg = useRecoilValue(ResultBlobImg);
 
-  function createMultipartFormData(blob, fieldName) {
-    const formData = new FormData();
-    formData.append(fieldName, blob);
-    return formData;
-  }
+  const formData = new FormData();
+  const [loading, setLoading] = useState(false);
 
-  const formData = createMultipartFormData(resultBlobImg, "images");
+  const serverAxios = async () => {
+    const image = new File([resultBlobImg], "image.jpeg");
+    formData.append("image", image);
+    setLoading(true);
+
+    axios
+      .request({
+        url: `${AUTH_URL}/user/image/complete`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+        method: "post",
+        data: formData,
+        responseType: "blob",
+      })
+      .then((res) => {
+        setLoading(false);
+        setCode(res.data.code);
+      })
+      .catch((err) => {
+        alertError("오류가 발생하였습니다. 관리자에게 문의해주세요");
+        setLoading(false);
+        window.location.href = "/";
+      });
+  };
+
+  useEffect(() => {
+    serverAxios();
+  }, []);
 
   return (
     <Container>
@@ -36,13 +67,17 @@ const ShowPictureCode = () => {
         <Frame src={resultImg} />
         <CodeContainer>
           <Heading>당신만의 사진 코드가 출력되었어요!</Heading>
-          <YourCode>
-            <PictureCode>사진 코드</PictureCode>
-            <Copy onClick={copyContent}>
-              <Code>{code}</Code>
-              <CopyIcon />
-            </Copy>
-          </YourCode>
+          {loading ? (
+            <text.heading.h2>사진 코드를 생성중입니다.</text.heading.h2>
+          ) : (
+            <YourCode>
+              <PictureCode>사진 코드</PictureCode>
+              <Copy onClick={copyContent}>
+                <Code>{code}</Code>
+                <CopyIcon />
+              </Copy>
+            </YourCode>
+          )}
           <Button onClick={() => (window.location.href = "/")}>홈으로</Button>
         </CodeContainer>
       </Content>

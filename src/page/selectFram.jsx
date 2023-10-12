@@ -2,7 +2,8 @@ import styled, { css } from "styled-components";
 import { frames } from "../assets/index";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
-  ImageTypeAtom,
+  AnotherSelectedImg,
+  ImageAlreadyAtom,
   MyImageAtom,
   ResultBlobImg,
   ResultImgAtom,
@@ -18,15 +19,14 @@ export const SelectFrame = () => {
   const nav = useNavigate();
   const setResultImg = useSetRecoilState(ResultImgAtom);
   const setResultBlogImg = useSetRecoilState(ResultBlobImg);
+  const imageAlready = useRecoilValue(ImageAlreadyAtom);
+  const anotherImg = useRecoilValue(AnotherSelectedImg);
 
   const makeImg = () => {
     const canvas = document.createElement("canvas");
-    // canvas.width = 240;
-    // canvas.height = 719;
     canvas.width = 480;
     canvas.height = 1687.21;
     const context = canvas.getContext("2d");
-
     const newImage1 = new Image();
     newImage1.src = screenImg[0];
 
@@ -42,35 +42,64 @@ export const SelectFrame = () => {
     const framesImg = new Image();
     framesImg.src = frames[frame];
 
-    // 모든 이미지 로드 완료 시에만 그리기
-    Promise.all([
-      loadImage(newImage1),
-      loadImage(newImage2),
-      loadImage(newImage3),
-      loadImage(newImage4),
-      loadImage(framesImg),
-    ]).then(() => {
-      // context.drawImage(newImage1, 10, 6.7, 220, 146);
-      // context.drawImage(newImage2, 10, 159.4, 220, 146);
-      // context.drawImage(newImage3, 10, 312.1, 220, 146);
-      // context.drawImage(newImage4, 10, 464.8, 220, 146);
-      // context.drawImage(framesImg, 0, 0, 240, 716);
-      context.drawImage(newImage1, 17, 19, 445, 342);
-      context.drawImage(newImage2, 17, 381, 445, 342);
-      context.drawImage(newImage3, 17, 742, 445, 342);
-      context.drawImage(newImage4, 17, 1103, 445, 342);
-      context.drawImage(framesImg, 0, 0, 480, 1687.21);
-      console.log(newImage1.width, newImage1.height)
+    if (imageAlready === "end") {
+      const anotherImg1 = new Image();
+      anotherImg1.src = anotherImg[0];
+      const anotherImg2 = new Image();
+      anotherImg2.src = anotherImg[1];
+      const anotherImg3 = new Image();
+      anotherImg3.src = anotherImg[2];
+      const anotherImg4 = new Image();
+      anotherImg4.src = anotherImg[3];
 
-      setResultImg(canvas.toDataURL("image/jpeg"));
-      canvas.toBlob((blob) => {
-        setResultBlogImg(blob);
-        console.log(blob);
-      }, "image/jpeg");
-    });
+      Promise.all([
+        loadImage(newImage1),
+        loadImage(newImage2),
+        loadImage(newImage3),
+        loadImage(newImage4),
+        loadImage(framesImg),
+        loadImage(anotherImg1),
+        loadImage(anotherImg2),
+        loadImage(anotherImg3),
+        loadImage(anotherImg4),
+      ]).then(() => {
+        context.drawImage(newImage1, 17, 19, 445, 342);
+        context.drawImage(newImage2, 17, 381, 445, 342);
+        context.drawImage(newImage3, 17, 742, 445, 342);
+        context.drawImage(newImage4, 17, 1103, 445, 342);
+        context.drawImage(anotherImg1, 17, 19, 445, 342);
+        context.drawImage(anotherImg2, 17, 381, 445, 342);
+        context.drawImage(anotherImg3, 17, 742, 445, 342);
+        context.drawImage(anotherImg4, 17, 1103, 445, 342);
+        context.drawImage(framesImg, 0, 0, 480, 1687.21);
+
+        setResultImg(canvas.toDataURL("image/jpeg"));
+        canvas.toBlob((blob) => {
+          setResultBlogImg(blob);
+        }, "image/jpeg");
+      });
+    } else {
+      Promise.all([
+        loadImage(newImage1),
+        loadImage(newImage2),
+        loadImage(newImage3),
+        loadImage(newImage4),
+        loadImage(framesImg),
+      ]).then(() => {
+        context.drawImage(newImage1, 17, 19, 445, 342);
+        context.drawImage(newImage2, 17, 381, 445, 342);
+        context.drawImage(newImage3, 17, 742, 445, 342);
+        context.drawImage(newImage4, 17, 1103, 445, 342);
+        context.drawImage(framesImg, 0, 0, 480, 1687.21);
+
+        setResultImg(canvas.toDataURL("image/jpeg"));
+        canvas.toBlob((blob) => {
+          setResultBlogImg(blob);
+        }, "image/jpeg");
+      });
+    }
   };
 
-  // 이미지 로드를 Promise로 감싸주는 함수
   const loadImage = (image) => {
     return new Promise((resolve) => {
       image.onload = () => resolve();

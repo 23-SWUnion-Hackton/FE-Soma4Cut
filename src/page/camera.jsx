@@ -2,8 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { text } from "../style/text";
 import { color } from "../style/color";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { AnotherImgAtom, ImageAlreadyAtom, MyImageAtom8 } from "../atoms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  AnotherImgAtom,
+  ImageAlreadyAtom,
+  MyImageAtom8,
+  MyImageBlob8,
+} from "../atoms";
 import { useNavigate } from "react-router-dom";
 export const Camera = () => {
   const nav = useNavigate();
@@ -20,7 +25,7 @@ export const Camera = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setTime((prev) => prev - 1);
-    }, 200);
+    }, 100);
     getWebCam((stream) => {
       videoRef.current.srcObject = stream;
     });
@@ -30,7 +35,7 @@ export const Camera = () => {
   }, []);
 
   useEffect(() => {
-    setShowImg(screenImg.slice(Math.max(0,screenImg.length-3)));
+    setShowImg(screenImg.slice(Math.max(0, screenImg.length - 3)));
   }, [screenImg]);
 
   const getSeconds = (time) => {
@@ -40,7 +45,7 @@ export const Camera = () => {
       setScreenShotTime((prev) => prev + 1);
 
       if (screenShotTime === 8) {
-        nav('/select')
+        nav("/select");
       }
       setTime(10);
     }
@@ -59,6 +64,8 @@ export const Camera = () => {
     }
   };
 
+  const setmyBlob = useSetRecoilState(MyImageBlob8);
+
   const ScreenShot = () => {
     const videoCam = document.getElementById("videoCam");
     const canvas = document.createElement("canvas");
@@ -70,8 +77,8 @@ export const Camera = () => {
     context.drawImage(videoCam, 0, 0, 1024, 786);
     canvas.toBlob((blob) => {
       const blobUrl = URL.createObjectURL(blob);
-
       setScreenImg((prevImages) => [...prevImages, blobUrl]);
+      setmyBlob((prev) => [...prev, blob]);
     }, "image/jpeg");
   };
 
@@ -81,7 +88,7 @@ export const Camera = () => {
         <VideoContainer>
           <Video ref={videoRef} autoPlay id="videoCam" />
           {imageAlready === "end" && (
-            <AlreadyImg src={anotherImage[screenShotTime - 1]} />
+            <AlreadyImg src={anotherImage[Math.floor(screenShotTime/2) - 1]} />
           )}
         </VideoContainer>
         <ImgCount>

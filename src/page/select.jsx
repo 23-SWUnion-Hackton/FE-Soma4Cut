@@ -1,34 +1,71 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { color } from "../style/color";
 import { Button } from "../style/button";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { MyImageAtom, MyImageAtom8 } from "../atoms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  AnotherImgAtom,
+  AnotherSelectedImg,
+  ImageAlreadyAtom,
+  MyImageAtom,
+  MyImageAtom8,
+  MyImageBlob8,
+  MySelectImageBlob,
+} from "../atoms";
 import { text } from "../style/text";
 import { alertWarning } from "../utils/toastify";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 export const Select = () => {
   const nav = useNavigate();
   const noneSelectedImage = useRecoilValue(MyImageAtom8);
+  const nonSelectedImageBlob = useRecoilValue(MyImageBlob8);
+
   const [selectImg, setSelectImg] = useRecoilState(MyImageAtom);
+  const [selectImgBlob, setSelectImgBlob] = useRecoilState(MySelectImageBlob);
+  const [anotherSelectedImg, setAnotherSelectedImg] =
+    useRecoilState(AnotherSelectedImg);
+  const anotherImg = useRecoilValue(AnotherImgAtom);
+
+  const imageAlready = useRecoilValue(ImageAlreadyAtom);
+
   const onChooseImg = (e) => {
     if (selectImg.length < 4) {
       if (!selectImg.includes(noneSelectedImage[e])) {
         setSelectImg(selectImg.concat([noneSelectedImage[e]]));
+        setSelectImgBlob(selectImgBlob.concat([nonSelectedImageBlob[e]]));
+        setAnotherSelectedImg(anotherSelectedImg.concat([anotherImg[e]]));
       } else {
         setSelectImg(selectImg.filter((v) => noneSelectedImage[e] !== v));
+        setSelectImgBlob(
+          selectImgBlob.filter((v) => nonSelectedImageBlob[e] !== v)
+        );
+        setAnotherSelectedImg(
+          anotherSelectedImg.filter((v) => anotherSelectedImg[e] !== v)
+        );
       }
     } else if (selectImg.includes(noneSelectedImage[e])) {
       setSelectImg(selectImg.filter((v) => noneSelectedImage[e] !== v));
+      setSelectImgBlob(selectImg.filter((v) => nonSelectedImageBlob[e] !== v));
+      setAnotherSelectedImg(
+        anotherSelectedImg.filter((v) => anotherSelectedImg[e] !== v)
+      );
     }
   };
+  useEffect(() => {
+    console.log(selectImg, selectImgBlob, anotherSelectedImg);
+  }, [selectImg]);
 
   const CheckOnClick = () => {
-    if(selectImg.length !==4){
-      alertWarning("사진 4장을 선택해주세요")
-    }else{
-      nav('/frame')
+    if (selectImg.length !== 4) {
+      alertWarning("사진 4장을 선택해주세요");
+    } else {
+      if (imageAlready === "start") {
+        nav("/show");
+      } else {
+        nav("/frame");
+      }
     }
-  }
+  };
   return (
     <Container>
       <SelectedImgContaienr>

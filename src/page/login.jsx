@@ -21,25 +21,30 @@ export const Login = () => {
   const loginOnclick = () => {
     if (pattern1.test(id)) {
       if (pattern2.test(pw)) {
-        axios
-          .request({
-            url: `${AUTH_URL}/user`,
-            method: "post",
-            data: {
-              name: id,
-              password: pw,
-            },
-          })
-          .then((res) => {
-            const { accessToken } = res.data;
-            setAccessToken(accessToken);
-            nav("/isnew");
-          })
-          .catch((err) => {
-            // alertError("로그인에 실패하였습니다.");
-            nav("/isnew");
-
-          });
+        // axios
+        //   .request({
+        //     url: `${AUTH_URL}/user`,
+        //     method: "post",
+        //     data: {
+        //       name: id,
+        //       password: pw,
+        //     },
+        //   })
+        //   .then((res) => {
+        //     const { accessToken } = res.data;
+        //     setAccessToken(accessToken);
+        //     setTimeout(function () {
+        //       nav("/isnew");
+        //     }, 500);
+        //     nav("/isnew");
+        //   })
+        //   .catch((err) => {
+        //     // alertError("로그인에 실패하였습니다.");
+        //     nav("/isnew");
+        //   });
+        setTimeout(function () {
+          nav("/isnew");
+        }, 500);
       } else {
         alertWarning(
           "비밀번호 형식은 8~16자 사이의 영문 + 특수문자 1개 이상 형식입니다."

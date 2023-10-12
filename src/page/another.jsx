@@ -3,12 +3,37 @@ import { color } from "../style/color";
 import { text } from "../style/text";
 import { Button } from "../style/button";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { AnotherImgAtom } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { AnotherImgAtom, CodeAtom } from "../atoms";
+import { useEffect } from "react";
+import axios from "axios";
+import { AUTH_URL } from "../constants/config";
+import { alertError } from "../utils/toastify";
+const token =
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiODhjNDQwYi03YWY1LTQ5ZjgtYjNjOS05MTliODg4ODg2YjAiLCJ0eXBlIjoiYWNjZXNzIiwiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIiwiaWF0IjoxNjk3MDQzMTIzLCJleHAiOjE2OTcxNDMxMjN9.jyAl-AJCRRm0bYitdb5B-dVOGWt50Ildo8kwmJNUfbE";
 
 export const Another = () => {
   const nav = useNavigate();
-  const anotherImages = useRecoilState(AnotherImgAtom);
+  const [anotherImages, setAnotherImage] = useRecoilState(AnotherImgAtom);
+  const code = useRecoilValue(CodeAtom);
+
+  useEffect(() => {
+    axios
+      .request({
+        url: `${AUTH_URL}/user/image/${code}`,
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setAnotherImage(res.data.images);
+      })
+      .catch(() => {
+        alertError("오류가 발생했습니다. 관리자에게 문의해주세요.");
+        // nav('/')
+      });
+  }, []);
 
   return (
     <Container>

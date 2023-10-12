@@ -61,3 +61,20 @@ export const MyImageAtom8 = atom({
   key: "myimg8",
   default: [],
 });
+
+/** 내 사진 8장 blob */
+export const MyImageBlob8 = atom({
+  key: "myimgblob8",
+  default: [],
+});
+
+export const MySelectImageBlob = atom({
+  key: "myimgblob",
+  default: [],
+});
+
+/**다른 사람 사진 */
+export const AnotherSelectedImg = atom({
+  key: "anotherSelectImg",
+  default: [],
+});
