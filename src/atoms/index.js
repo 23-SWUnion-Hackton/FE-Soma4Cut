@@ -55,3 +55,9 @@ export const AccessTokenAtom = atom({
   key: "accessToken",
   default: "",
 });
+
+/** 내 사진 8장 */
+export const MyImageAtom8 = atom({
+  key: "myimg8",
+  default: [],
+});
