@@ -7,15 +7,16 @@ import CopyIcon from "../assets/copyIcon";
 import { useRecoilValue } from "recoil";
 import { ResultImgAtom, ResultBlobImg } from "../atoms";
 import { Button } from "../style/button";
+import { alertError, alertSuccess } from "../utils/toastify";
 const ShowPictureCode = () => {
   const [code, setCode] = useState("");
 
   const copyContent = async () => {
     try {
       await navigator.clipboard.writeText(code);
-      alert("클립보드에 복사되었습니다.");
+      alertSuccess("클립보드에 복사되었습니다.");
     } catch (err) {
-      alert("클립보드 복사에 실패했습니다.");
+      alertError("클립보드 복사에 실패했습니다.");
     }
   };
   const resultImg = useRecoilValue(ResultImgAtom);

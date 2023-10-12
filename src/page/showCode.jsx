@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 import { MyImageAtom } from "../atoms";
 import { useEffect, useState } from "react";
 import CopyIcon from "../assets/copyIcon";
+import { alertError, alertSuccess } from "../utils/toastify";
 
 export const ShowCode = () => {
   const nav = useNavigate();
@@ -17,9 +18,9 @@ export const ShowCode = () => {
   const copyContent = async () => {
     try {
       await navigator.clipboard.writeText(code);
-      alert("클립보드에 복사되었습니다.");
+      alertSuccess("클립보드에 복사되었습니다.");
     } catch (err) {
-      alert("클립보드 복사에 실패했습니다.");
+      alertError("클립보드 복사에 실패했습니다.");
     }
   };
 
