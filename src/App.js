@@ -11,7 +11,6 @@ import Loading from "./page/loading";
 import { Another } from "./page/another";
 import ShowPictureCode from "./page/showPictureCode";
 import { ShowCode } from "./page/showCode";
-import SelectPics from "./page/selectPics";
 import NotFound from "./page/404";
 
 function App() {
@@ -30,7 +29,6 @@ function App() {
         <Route element={<Loading />} path="/loading" />
         <Route element={<ShowPictureCode />} path="/showCode" />
         <Route element={<ShowCode />} path="/show" />
-        <Route element={<SelectPics />} path="/select" />
         <Route element={<NotFound />} path="*" />
       </Routes>
     </>
