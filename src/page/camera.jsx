@@ -23,7 +23,7 @@ export const Camera = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setTime((prev) => prev - 1);
-    }, 510000);
+    }, 1000);
     getWebCam((stream) => {
       videoRef.current.srcObject = stream;
     });
