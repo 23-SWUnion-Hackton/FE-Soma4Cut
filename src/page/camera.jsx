@@ -2,12 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { text } from "../style/text";
 import { color } from "../style/color";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   AnotherImgAtom,
   ImageAlreadyAtom,
   MyImageAtom,
-  ResultBlobImg,
 } from "../atoms";
 import { useNavigate } from "react-router-dom";
 export const Camera = () => {
@@ -24,7 +23,7 @@ export const Camera = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setTime((prev) => prev - 1);
-    }, 100);
+    }, 510000);
     getWebCam((stream) => {
       videoRef.current.srcObject = stream;
     });

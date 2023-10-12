@@ -56,7 +56,7 @@ const Container = styled.div`
 `;
 
 const Frame = styled.img`
-  width: 200px;
+  width: 180px;
 `;
 
 const Content = styled.div`
