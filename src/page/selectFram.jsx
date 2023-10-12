@@ -1,7 +1,13 @@
 import styled, { css } from "styled-components";
 import { frames } from "../assets/index";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { ImageTypeAtom, MyImageAtom, ResultBlobImg, ResultImgAtom, frameAtom } from "../atoms";
+import {
+  ImageTypeAtom,
+  MyImageAtom,
+  ResultBlobImg,
+  ResultImgAtom,
+  frameAtom,
+} from "../atoms";
 import { Button } from "../style/button";
 import { color } from "../style/color";
 import { useNavigate } from "react-router-dom";
@@ -13,48 +19,12 @@ export const SelectFrame = () => {
   const setResultImg = useSetRecoilState(ResultImgAtom);
   const setResultBlogImg = useSetRecoilState(ResultBlobImg);
 
-  // const makeImg = () => {
-  //   const canvas = document.createElement("canvas");
-  //   canvas.width = 240;
-  //   canvas.height = 719;
-  //   const context = canvas.getContext("2d");
-  //   const newImage1 = new Image();
-  //   newImage1.src = screenImg[0];
-  //   const newImage2 = new Image();
-  //   newImage1.src = screenImg[1];
-  //   const newImage3 = new Image();
-  //   newImage1.src = screenImg[2];
-  //   const newImage4 = new Image();
-  //   newImage1.src = screenImg[3];
-  //   const framesImg = new Image();
-  //   newImage1.src = screenImg[0];
-  //   newImage1.onload = function () {
-  //     context.drawImage(newImage1, 10, 6.7, 220, 146);
-  //   };
-  //   newImage2.onload = function () {
-  //     context.drawImage(newImage2, 10, 159.4, 220, 146);
-  //   };
-  //   newImage3.onload = function () {
-  //     context.drawImage(newImage3, 10, 312.1, 220, 146);
-  //   };
-  //   newImage4.onload = function () {
-  //     context.drawImage(newImage4, 10, 464.8, 220, 146);
-  //   };
-  //   framesImg.onload = function () {
-  //     context.drawImage(framesImg, 0, 0);
-  //   };
-
-  //   // canvas.toBlob((blob) => {
-  //   //   const blobUrl = URL.createObjectURL(blob);
-
-  //   setResultImg(canvas.toDataURL("image/jpeg"));
-  //   // }, "image/jpeg");
-  // };
-
   const makeImg = () => {
     const canvas = document.createElement("canvas");
-    canvas.width = 240;
-    canvas.height = 719;
+    // canvas.width = 240;
+    // canvas.height = 719;
+    canvas.width = 480;
+    canvas.height = 1687.21;
     const context = canvas.getContext("2d");
 
     const newImage1 = new Image();
@@ -80,11 +50,17 @@ export const SelectFrame = () => {
       loadImage(newImage4),
       loadImage(framesImg),
     ]).then(() => {
-      context.drawImage(newImage1, 10, 6.7, 220, 146);
-      context.drawImage(newImage2, 10, 159.4, 220, 146);
-      context.drawImage(newImage3, 10, 312.1, 220, 146);
-      context.drawImage(newImage4, 10, 464.8, 220, 146);
-      context.drawImage(framesImg, 0, 0, 240, 716);
+      // context.drawImage(newImage1, 10, 6.7, 220, 146);
+      // context.drawImage(newImage2, 10, 159.4, 220, 146);
+      // context.drawImage(newImage3, 10, 312.1, 220, 146);
+      // context.drawImage(newImage4, 10, 464.8, 220, 146);
+      // context.drawImage(framesImg, 0, 0, 240, 716);
+      context.drawImage(newImage1, 17, 19, 445, 342);
+      context.drawImage(newImage2, 17, 381, 445, 342);
+      context.drawImage(newImage3, 17, 742, 445, 342);
+      context.drawImage(newImage4, 17, 1103, 445, 342);
+      context.drawImage(framesImg, 0, 0, 480, 1687.21);
+      console.log(newImage1.width, newImage1.height)
 
       setResultImg(canvas.toDataURL("image/jpeg"));
       canvas.toBlob((blob) => {
@@ -153,7 +129,7 @@ const HeadContainer = styled.div`
   justify-content: end;
 `;
 const SelectedFrame = styled.img`
-  width: 240px;
+  width: 200px;
   top: 0;
 `;
 const FrameContainer = styled.div`
@@ -184,9 +160,8 @@ const ImgContainer = styled.div`
 const ScreenImg = styled.img`
   position: absolute;
   background-color: red;
-  width: 220px;
-  height: 146px;
-  top: ${({ idx }) => 146 * idx + (idx + 1) * 6.7}px;
-  left: 10px;
+  width: 187px;
+  top: ${({ idx }) => 143 * idx + (idx + 1) * 7}px;
+  left: 7px;
   z-index: -1;
 `;
