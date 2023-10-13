@@ -17,7 +17,7 @@ import axios from "axios";
 import { AUTH_URL } from "../constants/config";
 
 const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2ZjhjNzcxZi03NjM3LTRjNWYtYjA3Ny1hNTA1ZjAxZjZlMmEiLCJ0eXBlIjoiYWNjZXNzIiwiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIiwiaWF0IjoxNjk3MTUxMDc1LCJleHAiOjE2OTcxNjEwNzV9.wD0bRmzIOTCpVy_umtMmFCXkEje9t1GS-PdDKyV73Hk";
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjOGFjNzYyZC1jMTIzLTQ0ZGQtYmNkZC03ZGU4OTdjZTA1NzciLCJ0eXBlIjoiYWNjZXNzIiwiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIiwiaWF0IjoxNjk3MTYzODk3LCJleHAiOjE2OTcxNzM4OTd9.zcAyv1fSDsY35Kc57l84Jy67wot4WL5ioa5hHjCBfH4";
 const ShowPictureCode = () => {
   const [code, setCode] = useState("");
   const imageType = useRecoilValue(ImageTypeAtom);
@@ -37,36 +37,61 @@ const ShowPictureCode = () => {
 
   const formData = new FormData();
   const [loading, setLoading] = useState(false);
-
   const serverAxios = async () => {
     const image = new File([resultBlobImg], "image.jpeg");
     formData.append("image", image);
     setLoading(true);
-
-    axios
-      .request({
-        url: `${AUTH_URL}/user/image/complete`,
-        headers: {
-          Authorization: `Bearer ${imageType === "alone" ? token : tokenAtom}`,
-          "Content-Type": "multipart/form-data",
-        },
-        method: "post",
-        data: formData,
-      })
-      .then((res) => {
-        setLoading(false);
-        setCode(res.data.code);
-      })
-      .catch((err) => {
-        alertError("오류가 발생하였습니다. 관리자에게 문의해주세요");
-        setLoading(false);
-        // window.location.href = "/";
-      });
+    if (code === "") {
+      axios
+        .request({
+          url: `${AUTH_URL}/user/image/complasdasdete`,
+          headers: {
+            Authorization: `Bearer ${
+              imageType === "alone" ? token : tokenAtom
+            }`,
+            "Content-Type": "multipart/form-data",
+          },
+          method: "post",
+          data: formData,
+        })
+        .then((res) => {
+          setLoading(false);
+          setCode(res.data.code);
+        })
+        .catch((err) => {
+          setLoading(false);
+          setCode("loading...");
+        });
+    } else {
+      axios
+        .request({
+          url: `${AUTH_URL}/user/image/complete`,
+          headers: {
+            Authorization: `Bearer ${
+              imageType === "alone" ? token : tokenAtom
+            }`,
+            "Content-Type": "multipart/form-data",
+          },
+          method: "post",
+          data: formData,
+        })
+        .then((res) => {
+          setLoading(false);
+          setCode(res.data.code);
+        })
+        .catch((err) => {
+          alertError("오류가 발생하였습니다. 관리자에게 문의해주세요");
+          setLoading(false);
+        });
+    }
   };
 
   useEffect(() => {
     serverAxios();
   }, []);
+  useEffect(() => {
+    if (code === "loading...") serverAxios();
+  }, [code]);
 
   return (
     <Container>
@@ -139,3 +164,5 @@ const YourCode = styled.div`
 `;
 
 export default ShowPictureCode;
+
+const A = styled.p``;

@@ -69,6 +69,7 @@ export const Login = () => {
             <Input
               placeholder="비밀번호를 입력해주세요"
               value={pw}
+              type="password"
               onChange={(e) => setPw(e.target.value)}
             />
           </div>

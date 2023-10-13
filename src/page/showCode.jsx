@@ -96,13 +96,15 @@ export const ShowCode = () => {
           ))}
         </ImgContainer>
         <ButtonContainer>
-          <Button
-            onClick={() => {
-              window.location.href = "/";
-            }}
-          >
-            감사합니다.
-          </Button>
+          {!loading && (
+            <Button
+              onClick={() => {
+                window.location.href = "/";
+              }}
+            >
+              감사합니다.
+            </Button>
+          )}
         </ButtonContainer>
       </Children>
     </Container>

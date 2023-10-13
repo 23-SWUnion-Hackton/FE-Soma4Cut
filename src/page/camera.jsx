@@ -17,7 +17,7 @@ export const Camera = () => {
   const [screenShotTime, setScreenShotTime] = useState(1);
   const [showImg, setShowImg] = useState([]);
 
-  const [time, setTime] = useState(10);
+  const [time, setTime] = useState(7);
 
   const imageAlready = useRecoilValue(ImageAlreadyAtom);
   const anotherImage = useRecoilValue(AnotherImgAtom);
@@ -47,7 +47,7 @@ export const Camera = () => {
       if (screenShotTime === 8) {
         nav("/select");
       }
-      setTime(4);
+      setTime(2);
     }
     return String(seconds);
   };
