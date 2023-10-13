@@ -19,6 +19,12 @@ export const ShowCode = () => {
   const [loading, setLoading] = useState(false);
   const nav = useNavigate();
 
+  const [count, setCount] = useState(0);
+
+  setTimeout(() => {
+    setCount(count + 1);
+  }, 1000);
+
   const copyContent = async () => {
     try {
       await navigator.clipboard.writeText(code);
@@ -72,7 +78,9 @@ export const ShowCode = () => {
     <Container>
       <Children>
         {loading ? (
-          <text.body.body1>코드를 생성하는 중입니다.</text.body.body1>
+          <text.body.body1>
+            {`코드 생성중, 잠시만 기다려 주세요${".".repeat((count % 3) + 1)}`}
+          </text.body.body1>
         ) : (
           <HeaderContainer>
             <text.heading.h5>코드를 친구에게 공유해주세요!</text.heading.h5>
